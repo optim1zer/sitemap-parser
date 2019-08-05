@@ -1,7 +1,7 @@
 Sitemap Parser
 =======
 
-Sitemap and sitemap index builder.
+Sitemap and sitemap index parser.
 
 Features
 --------
