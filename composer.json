@@ -19,8 +19,9 @@
     }
   ],
   "require": {
-    "php": ">=5.3.0",
-    "ext-xmlwriter": "*"
+    "php": ">=5.5.0",
+    "ext-xmlwriter": "*",
+    "guzzlehttp/guzzle": "^6.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^5.6"
