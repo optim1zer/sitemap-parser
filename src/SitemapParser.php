@@ -69,6 +69,7 @@ class SitemapParser
         if (strtolower(substr($path, -3)) == '.gz') {
             $path = 'compress.zlib://'.$path;
         }
+        libxml_clear_errors();
         libxml_use_internal_errors(true);
         $xml = new XMLReader();
         $xml->open($path);
