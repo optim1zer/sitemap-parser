@@ -106,7 +106,7 @@ class SitemapParser
         }
         $xml->close();
         if ($xmlError = libxml_get_last_error()) {
-            $result->setParseError($xmlError->message);
+            $result->setParseError($xmlError->message . ' (Line: ' . $xmlError->line . ', column: ' . $xmlError->column . ')');
             return;
         }
         if (count($urls) > 0) {
