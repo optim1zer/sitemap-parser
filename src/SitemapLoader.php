@@ -50,7 +50,7 @@ class SitemapLoader
                 'sink'            => $this->tempFile
             ]);
             if (!in_array($response->getStatusCode(), [200, 204], true)) {
-                $result->setLoadError('Load error with http-code: '.$response->getStatusCode());
+                $result->setLoadError('HTTP-code: '.$response->getStatusCode());
             }
         } catch (TransferException $e) {
             $result->setLoadError($e->getMessage());

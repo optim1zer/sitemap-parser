@@ -69,10 +69,20 @@ class SitemapResult
         $this->error = $error;
     }
 
+    public function isLoadError()
+    {
+        return $this->status === self::STATUS_LOAD_ERROR;
+    }
+
     public function setParseError($error)
     {
         $this->status = self::STATUS_PARSE_ERROR;
         $this->error = $error;
+    }
+
+    public function isParseError()
+    {
+        return $this->status === self::STATUS_PARSE_ERROR;
     }
 
     public function getError()
