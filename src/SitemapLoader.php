@@ -9,7 +9,6 @@ namespace optim1zer\sitemap;
 
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\TransferException;
 
 class SitemapLoader
 {
@@ -53,7 +52,7 @@ class SitemapLoader
             if (!in_array($response->getStatusCode(), [200, 204], true)) {
                 $result->setLoadError('HTTP-code: '.$response->getStatusCode());
             }
-        } catch (TransferException $e) {
+        } catch (\Throwable $e) {
             $result->setLoadError($e->getMessage());
         }
         return $result;
