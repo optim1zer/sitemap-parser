@@ -22,6 +22,7 @@ class SitemapLoader
         $this->userAgent = $userAgent;
         $this->tempFile = tempnam(sys_get_temp_dir(), 'sitemap-xml');
         if ($url && ($ext = pathinfo($url, PATHINFO_EXTENSION))) {
+            $ext = preg_match('~[^a-z]~is', $ext) ? 'xml' : $ext;
             $ext = '.'.$ext;
             if (rename($this->tempFile, $this->tempFile . $ext)) {
                 $this->tempFile .= $ext;
