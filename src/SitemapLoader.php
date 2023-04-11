@@ -14,12 +14,14 @@ class SitemapLoader
 {
     private $url;
     private $userAgent;
+    private $guzzleOptions;
     private $tempFile;
 
-    public function __construct($url, $userAgent)
+    public function __construct($url, $userAgent, array $guzzleOptions = [])
     {
         $this->url = $url;
         $this->userAgent = $userAgent;
+        $this->guzzleOptions = $guzzleOptions;
         $this->tempFile = tempnam(sys_get_temp_dir(), 'sitemap-xml');
         if ($url && ($ext = pathinfo($url, PATHINFO_EXTENSION))) {
             $ext = preg_match('~[^a-z]~is', $ext) ? 'xml' : $ext;
@@ -39,16 +41,17 @@ class SitemapLoader
     {
         $result = new SitemapResult($this->url);
         try {
-            $client = new Client();
-            $response = $client->request('GET', $this->url, [
-                'headers' => [
-                    'User-Agent'  => $this->userAgent
-                ],
+            $client = new Client(array_replace_recursive([
                 'allow_redirects' => true,
                 'verify'          => false,
                 'connect_timeout' => 20,
                 'timeout'         => 60,
-                'sink'            => $this->tempFile
+            ], $this->guzzleOptions));
+            $response = $client->request('GET', $this->url, [
+                'headers' => [
+                    'User-Agent' => $this->userAgent
+                ],
+                'sink'    => $this->tempFile
             ]);
             if (!in_array($response->getStatusCode(), [200, 204], true)) {
                 $result->setLoadError('HTTP-code: '.$response->getStatusCode());

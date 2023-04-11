@@ -15,12 +15,14 @@ class SitemapParser
 {
     protected $callback;
     protected $userAgent;
+    protected $guzzleOptions;
     protected $limit = 50000;
 
-    public function __construct(callable $callback, $userAgent = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)')
+    public function __construct(callable $callback, $userAgent = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)', array $guzzleOptions = [])
     {
         $this->callback = $callback;
         $this->userAgent = $userAgent;
+        $this->guzzleOptions = $guzzleOptions;
     }
 
     /**
@@ -56,7 +58,7 @@ class SitemapParser
 
     protected function parseUrl($url)
     {
-        $loader = new SitemapLoader($url, $this->userAgent);
+        $loader = new SitemapLoader($url, $this->userAgent, $this->guzzleOptions);
         $result = $loader->load();
         if ($result->isSuccess()) {
             $this->parseXml($loader->getSitemapPath(), $result);
